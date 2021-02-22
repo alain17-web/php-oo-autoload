@@ -58,8 +58,8 @@ class TheNews extends MappingTableAbstract
         if(empty($theNewsTitle)){
             trigger_error("Votre titre ne peut être vide",E_USER_NOTICE);
         }
-        elseif(strlen($theNewsTitle)>150){
-            trigger_error("Votre titre ne peut dépasser les 150 caractères",E_USER_NOTICE);
+        elseif(strlen($theNewsTitle)>180){
+            trigger_error("Votre titre ne peut dépasser les 180 caractères",E_USER_NOTICE);
         }
         else{
             $this->theNewsTitle = $theNewsTitle;
@@ -85,6 +85,9 @@ class TheNews extends MappingTableAbstract
         $theNewsSlug = strip_tags(trim($theNewsSlug));
         if(empty($theNewsSlug)){
             trigger_error("Votre slug ne peut être vide",E_USER_NOTICE);
+        }
+        elseif(strlen($theNewsSlug)>180){
+            trigger_error("Le slug ne peut dépasser 180 caractères",E_USER_NOTICE);
         }
         else{
             $this->theNewsSlug = $theNewsSlug;
