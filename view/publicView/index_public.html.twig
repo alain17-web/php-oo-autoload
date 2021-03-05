@@ -8,7 +8,11 @@
 {{ dump(news) }}
     {% for item in news %}
         <h3>{{ item.theNewsTitle }}</h3>
-        <h1>On est ici!</h1>
+        {% for section in item.idtheSection %}
+            section<br>
+        {% endfor %}
+        <h4>Ecrit par {{ item.theUserLogin }} le {{ item.theNewsDate|date("d/m/Y") }}</h4>
+        <p>{{ item.theNewsText }} ... <a href="?page={{ item.theNewsSlug }}">Lire la suite</a></p>
     {% else %}
         <h3>Pas encore de news sur ce site</h3>
     {% endfor %}
