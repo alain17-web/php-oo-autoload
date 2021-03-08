@@ -11,12 +11,6 @@ class TheNews extends MappingTableAbstract
     protected string $theNewsDate;
     protected int $theUserIdtheUser;
 
-    // from TheUser
-    protected string $theUserLogin;
-
-    // from TheSection
-    protected ?string $idtheSection;
-    protected ?string $theSectionName;
 
     # Constructor
     public function __construct(array $tab)
@@ -74,31 +68,12 @@ class TheNews extends MappingTableAbstract
         return $this->theUserIdtheUser;
     }
 
-    /**
-     * Getter from TheUser
-     * @return string
-     */
-    public function getTheUserLogin(): string
-    {
-        return $this->theUserLogin;
-    }
-    /**
-     * Getter from TheSection
-     *
-     */
-    public function getIdtheSection(): ?string
-    {
-        return $this->idtheSection;
-    }
 
-    /**
-     * Getter from TheSection
-     *
-     */
-    public function getTheSectionName(): ?string
-    {
-        return $this->theSectionName;
-    }
+
+
+
+
+
 
     # SETTERS
 
@@ -132,32 +107,12 @@ class TheNews extends MappingTableAbstract
             // if the slug's param is not exist (undefined == NOT isset !!! not NULL)
             if(!isset($this->theNewsSlug)) {
 
-                $this->setTheNewsSlug($this->slugify($theNewsTitle));
+                $this->setTheNewsSlug(TheNewsManager::slugify($theNewsTitle));
             }
         }
     }
 
-    /**
-     * from TheSection
-     * @param int $idtheSection
-     */
-    public function setIdtheSection(?string $idtheSection): void
-    {
 
-            $this->idtheSection = $idtheSection;
-
-    }
-
-    /**
-     * from TheSection
-     * @param string $theSectionName
-     */
-    public function setTheSectionName(?string $theSectionName): void
-    {
-        $theSectionName = strip_tags(trim($theSectionName));
-
-            $this->theSectionName = $theSectionName;
-    }
 
     /**
      * @param string $theNewsSlug
@@ -213,63 +168,7 @@ class TheNews extends MappingTableAbstract
         }
     }
 
-    /**
-     * from TheUser
-     * @param string $theUserLogin
-     */
-    public function setTheUserLogin(string $theUserLogin): void
-    {
-        $theUserLogin = strip_tags(trim($theUserLogin));
-        if(empty($theUserLogin)){
-            trigger_error("Le login ne peut être vide",E_USER_NOTICE);
-        }
-        elseif(strlen($theUserLogin)>80){
-            trigger_error("Le login ne peut dépasser 80 caractères",E_USER_NOTICE);
-        }
-        else{
-            $this->theUserLogin = $theUserLogin;
-        }
-    }
 
-    # methode cuteTheText
-    public static function cuteTheText(string $text, int $nb){
-        // on coupe à la longueur maximale voulue
-        $cuteText = substr($text,0,$nb);
-        // on trouve le dernier espace dans ce texte
-        $positionLastSpace = strrpos($cuteText, " ");
-        // on coupe la chaine avec ce dernier caractère
-        $final = substr($cuteText, 0,$positionLastSpace);
-        return $final;
-
-    }
-
-    # method slug
-    public static function slugify($text)
-    {
-        // replace non letter or digits by -
-        $text = preg_replace('~[^\pL\d]+~u', '-', $text);
-
-        // transliterate
-        $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
-
-        // remove unwanted characters
-        $text = preg_replace('~[^-\w]+~', '', $text);
-
-        // trim
-        $text = trim($text, '-');
-
-        // remove duplicate -
-        $text = preg_replace('~-+~', '-', $text);
-
-        // lowercase
-        $text = strtolower($text);
-
-        if (empty($text)) {
-            return 'n-a';
-        }
-
-        return $text;
-    }
 
 
 }
