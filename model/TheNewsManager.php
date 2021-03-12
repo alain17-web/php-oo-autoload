@@ -104,9 +104,18 @@ class TheNewsManager extends ManagerAbstract implements ManagerInterface {
 
     // on récupère tous les articles qui sont dans une section
     public function getAllNewsInTheSection(int $idsection): array {
-        $sql = "SELECT n.theNewsTitle, n.theNewsSlug, LEFT(n.theNewsText,180) AS theNewsText, n.theNewsDate, n.theUserIdtheUser,
+        $sql = "SELECT n.idtheNews, n.theNewsTitle, n.theNewsSlug, LEFT(n.theNewsText,180) AS theNewsText, n.theNewsDate, n.theUserIdtheUser,
                     u.theUserLogin,
-                    GROUP_CONCAT(s.theSectionName SEPARATOR '|||') as theSectionName, GROUP_CONCAT(s.idtheSection) as idtheSection
+                    
+                        (SELECT GROUP_CONCAT(s2.theSectionName ,'|||', s2.idtheSection SEPARATOR '---')
+                            FROM thesection s2
+                            INNER JOIN theNews_has_theSection h2
+                                ON s2.idtheSection = h2.theSection_idtheSection
+                            INNER JOIN TheNews n2    
+                                ON n2.idtheNews = h2.theNews_idtheNews
+                            WHERE   n.idtheNews = n2.idtheNews  
+                        )AS section
+                        
                 FROM TheNews n 
                     INNER JOIN TheUser u
                         ON u.idtheUser = n.theUserIdtheUser
@@ -142,8 +151,8 @@ class TheNewsManager extends ManagerAbstract implements ManagerInterface {
 
                 // utilisation du __set (MappingTableAbstract.php) pour ajouter les champs manquants venant d'autres tables (! parfait pour de l'affichage, on utilise pas ces champs pour un insert update ou delete, car il contourne l'encapsulation et la protection des setters) - les éléments dans item viennent de la requête SQL
                 $instanceNews->theUserLogin = $item['theUserLogin']; // theUserLogin
-                $instanceNews->idtheSection = $item['idtheSection']; // idtheSection
-                $instanceNews->theSectionName = $item['theSectionName']; // theSectionName
+                $instanceNews->section = $item['section']; // les champs venant de section
+
                 
                 // on coupe le texte récupéré grâce à son getter "$instanceNews->getTheNewsText()" en utilisant le méthode statique "TheNews::cuteTheText($instanceNews->getTheNewsText(),160)" donc à 160 caractères, puis je réattribue le tout avec "$instanceNews->setTheNewsText(...)"
                 $instanceNews->setTheNewsText(TheNewsManager::cuteTheText($instanceNews->getTheNewsText(), 160));
@@ -153,8 +162,10 @@ class TheNewsManager extends ManagerAbstract implements ManagerInterface {
 
             // erreur SQL    
         } catch (PDOException $ex) {
+            echo $ex->getMessage();
             // envoie de l'erreur 2 => 404
             return [2 => $ex->getMessage()];
+            
         }
     }
 
