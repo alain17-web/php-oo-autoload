@@ -12,6 +12,9 @@ if(isset($_GET['section'])&& ctype_digit($_GET['section'])){
     // récupartion de la section
     $recupSection = $TheSectionManager->getTheSectionById($idSection);
     
+    //récupération des news de la section
+    $recupTheNews = $TheNewsManager->getAllNewsInTheSection($idSection);
+    
     // vérification des codes erreurs du tableau 0=> pas d'erreurs, 1 => warnings, 2 = error 404
     if(array_key_exists(0,$recupSection)){
         
@@ -19,7 +22,7 @@ if(isset($_GET['section'])&& ctype_digit($_GET['section'])){
         $recupSection = $recupSection[0];
         
         // affichage de la vue si pas d'erreurs 404
-    echo $twig->render("publicView/section_public.html.twig",["menu"=>$sectionsForMenu,"news"=>"","detailSection"=>$recupSection]);
+    echo $twig->render("publicView/section_public.html.twig",["menu"=>$sectionsForMenu,"news"=>$recupTheNews,"detailSection"=>$recupSection]);
             
     }elseif (array_key_exists(2,$recupSection)) {
         // CREATE 404 error
