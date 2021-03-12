@@ -4,7 +4,30 @@
 $sectionsForMenu = $TheSectionManager->getAllWithoutTheSectionDesc();
 
 // si on veut voir le détail d'une rubrique et ses articles
-
+if(isset($_GET['section'])&& ctype_digit($_GET['section'])){
+    
+    // string to int
+    $idSection = (int) $_GET['section'];
+    
+    // récupartion de la section
+    $recupSection = $TheSectionManager->getTheSectionById($idSection);
+    
+    // vérification des codes erreurs du tableau 0=> pas d'erreurs, 1 => warnings, 2 = error 404
+    if(array_key_exists(0,$recupSection)){
+        
+        // transformation du tableau en instance
+        $recupSection = $recupSection[0];
+        
+        // affichage de la vue si pas d'erreurs 404
+    echo $twig->render("publicView/section_public.html.twig",["menu"=>$sectionsForMenu,"news"=>"","detailSection"=>$recupSection]);
+            
+    }elseif (array_key_exists(2,$recupSection)) {
+        // CREATE 404 error
+    }
+    
+    
+    exit();
+}
 
 // si on veut voir le détail d'une news
 if(isset($_GET['page'])){
