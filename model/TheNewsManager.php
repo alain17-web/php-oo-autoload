@@ -20,7 +20,7 @@ class TheNewsManager extends ManagerAbstract implements ManagerInterface {
         }
         return $news;
     }
-
+}
     // Affichage des news pour la page d'accueil
     public function getAllHomePage(): array {
         $sql = "SELECT n.theNewsTitle, n.theNewsSlug, LEFT(n.theNewsText,180) AS theNewsText, n.theNewsDate, n.theUserIdtheUser,
@@ -96,25 +96,13 @@ class TheNewsManager extends ManagerAbstract implements ManagerInterface {
 
             return [1 => $instanceNews];
 
-<<<<<<< HEAD
-        // erreur
-        }catch(PDOException $e){
-            return [0=>$e->getMessage()];
-
-            
-=======
             // erreur
         } catch (PDOException $e) {
             return [0 => $e->getMessage()];
->>>>>>> a7601f0d90501d2be1edc42d77b85a62fb21a0ab
         }
     }
 
     // on récupère tous les articles qui sont dans une section
-<<<<<<< HEAD
-    public function getAllNewsInTheSection( ): array {
-        
-=======
     public function getAllNewsInTheSection(int $idsection): array {
         $sql = "SELECT n.idtheNews, n.theNewsTitle, n.theNewsSlug, LEFT(n.theNewsText,180) AS theNewsText, n.theNewsDate, n.theUserIdtheUser,
                     u.theUserLogin,
@@ -145,7 +133,6 @@ class TheNewsManager extends ManagerAbstract implements ManagerInterface {
 
         // essai / erreur
         try {
->>>>>>> a7601f0d90501d2be1edc42d77b85a62fb21a0ab
 
             // exécution de la requête
             $recup->execute([$idsection]);
@@ -222,4 +209,4 @@ class TheNewsManager extends ManagerAbstract implements ManagerInterface {
         return $text;
     }
 
-}
+
