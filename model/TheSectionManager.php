@@ -39,6 +39,27 @@ class TheSectionManager extends ManagerAbstract implements ManagerInterface
     // récupération de tous les champs d'une section par son id
     public function getTheSectionById(int $id): array
     {
-
+        // SQL
+        $sql = "SELECT * FROM TheSection WHERE `idtheSection`=?";
+        // prepare this request
+        $request = $this->db->prepare($sql);
+        
+        // essais erreur
+        try{
+            // exécution de la requête préparée
+            $request->execute([$id]);
+            
+            // si on a un résultat
+            if($request->rowCount()){
+                // instanciation de la réponse SQL en objet de type TheSection
+                $instanceTheSection = new TheSection($request->fetch(PDO::FETCH_ASSOC));
+                return[0=>$instanceTheSection];
+            }else{
+                return [1=>"Cette section n'existe pas"];
+            }
+        } catch (PDOException $ex) {
+            return [1=>$ex->getMessage()];
+        }
+        
     }
 }

@@ -4,7 +4,14 @@
 $sectionsForMenu = $TheSectionManager->getAllWithoutTheSectionDesc();
 
 // si on veut voir le détail d'une rubrique et ses articles
-
+if($_GET['section']&& ctype_digit($_GET['section'])){
+    
+    // string to int
+    $idSection = (int) $_GET['section'];
+    
+    // récupartion de la section
+    $recupSection = $TheSectionManager->getTheSectionById($idSection);
+}
 
 // si on veut voir le détail d'une news
 if(isset($_GET['page'])){
