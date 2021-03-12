@@ -1,0 +1,10 @@
+<<<<<<< HEAD
+=======
+# PHPStorm
+.idea/
+# la bonne pratique est de ne pas envoyer les bibliothèques tierces sur github
+# Le composer.json permet de les installer simplement en utilisant la commande composer install
+vendor
+/nbproject/
+
+>>>>>>> a7601f0d90501d2be1edc42d77b85a62fb21a0ab
