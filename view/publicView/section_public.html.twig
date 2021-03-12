@@ -13,17 +13,16 @@
     {% for item in news %}
         <h3>{{ item.theNewsTitle }}</h3>
         {# Création d'une variable avec set, la fonction split (explode) va couper et transformer en tableau les id des sections #}
-        {% set idsection = item.idtheSection|split(',') %}
-        {% set sectionName = item.theSectionName|split('|||') %}
+        {% set sectionstring = item.section|split('---') %}
+        <h4>{% for itemSection in sectionstring  %}
+            {% set sectionCute = itemSection|split('|||') %}
+            <a href="?section={{ sectionCute[1] }}">{{ sectionCute[0] }}</a> {% if not loop.last %}|{% endif %}
+        {% endfor %}</h4>
 
-<h4>{% for section in idsection %}
-        <a href="?section={{ section }}">{{ sectionName[loop.index0] }}</a> {% if not loop.last %}|{% endif %}
-    {% endfor %}</h4>
-
-        <p>{{ item.theNewsText }} ... <a href="?page={{ item.theNewsSlug }}">Lire la suite</a></p>
-        <h5>Ecrit par {{ item.theUserLogin }} le {{ item.theNewsDate|date("d/m/Y") }}</h5>
+    <p>{{ item.theNewsText }} ... <a href="?page={{ item.theNewsSlug }}">Lire la suite</a></p>
+    <h5>Ecrit par {{ item.theUserLogin }} le {{ item.theNewsDate|date("d/m/Y") }}</h5>
     {% else %}
         <h3>Pas encore de news sur ce site</h3>
-    {% endfor %}
-{% endblock %}
+        {% endfor %}
+            {% endblock %}
 
