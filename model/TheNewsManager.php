@@ -20,7 +20,7 @@ class TheNewsManager extends ManagerAbstract implements ManagerInterface {
         }
         return $news;
     }
-}
+
     // Affichage des news pour la page d'accueil
     public function getAllHomePage(): array {
         $sql = "SELECT n.theNewsTitle, n.theNewsSlug, LEFT(n.theNewsText,180) AS theNewsText, n.theNewsDate, n.theUserIdtheUser,
@@ -209,4 +209,4 @@ class TheNewsManager extends ManagerAbstract implements ManagerInterface {
         return $text;
     }
 
-
+}
