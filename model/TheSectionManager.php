@@ -53,12 +53,16 @@ class TheSectionManager extends ManagerAbstract implements ManagerInterface
             if($request->rowCount()){
                 // instanciation de la réponse SQL en objet de type TheSection
                 $instanceTheSection = new TheSection($request->fetch(PDO::FETCH_ASSOC));
+                
+                // envoi du tableau contant notre objet TheSection, la clef 0 signifie pas d'erreurs 0 => TheSection
                 return[0=>$instanceTheSection];
             }else{
-                return [1=>"Cette section n'existe pas"];
+                // envoi un tableau avec la clef 2 => string => signifie erreur 404
+                return [2=>"Cette section n'existe pas"];
             }
         } catch (PDOException $ex) {
-            return [1=>$ex->getMessage()];
+            // envoi un tableau avec la clef 2 => string > signifie erreur 404
+            return [2=>$ex->getMessage()];
         }
         
     }
