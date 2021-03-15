@@ -1,0 +1,14 @@
+{% extends "template_bootstrap.html.twig" %}
+
+
+{% block title %}{{ parent() }}{{ error }}{% endblock %}
+
+{% block h1 %}{{ error }}{% endblock %}
+
+{% block lead %}{{ detailSection.theSectionDesc }}<hr>{{ parent() }} {{ news|length }}{% endblock %}
+
+{% block contenu %}
+
+    <h3>Erreur 404 : {{ error }}</h3>
+            {% endblock %}
+

@@ -25,7 +25,10 @@ if(isset($_GET['section'])&& ctype_digit($_GET['section'])){
     echo $twig->render("publicView/section_public.html.twig",["menu"=>$sectionsForMenu,"news"=>$recupTheNews,"detailSection"=>$recupSection]);
             
     }elseif (array_key_exists(2,$recupSection)) {
+        // transformation du tableau en chaîne de caractère
+        $error = $recupSection[2];
         // CREATE 404 error
+        echo $twig->render("publicView/error_404.html.twig",["menu"=>$sectionsForMenu,"error"=>$error]);
     }
     
     
@@ -37,9 +40,19 @@ if(isset($_GET['page'])){
 
     $slugNews = htmlspecialchars(strip_tags(trim($_GET['page'])),ENT_QUOTES);
     $recupOneNews = $TheNewsManager->getDetailNews($slugNews);
-
+    
+    if(array_key_exists(0,$recupOneNews)){
+       
+        $recupOneNews = $recupOneNews[0];
     // Appel de la vue (objet de type Twig, la méthode render utilise un modèle Twig se trouvant dans view, suivi de paramètres)
     echo $twig->render("publicView/detail_news_public.html.twig",["menu"=>$sectionsForMenu,"news"=>$recupOneNews]);
+    
+    }elseif (array_key_exists(2,$recupOneNews)) {
+        // transformation du tableau en chaîne de caractère
+        $error = $recupOneNews[2];
+        // CREATE 404 error
+        echo $twig->render("publicView/error_404.html.twig",["menu"=>$sectionsForMenu,"error"=>$error]);
+    }
 
    exit();
 }
