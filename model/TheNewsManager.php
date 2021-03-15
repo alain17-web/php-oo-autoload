@@ -82,7 +82,7 @@ class TheNewsManager extends ManagerAbstract implements ManagerInterface {
 
             // si pas de résultats
             if (!$prepare->rowCount())
-                return [0 => "Cet article n'existe plus"];
+                return [2 => "Cet article n'existe plus"];
 
             $oneNews = $prepare->fetch(PDO::FETCH_ASSOC);
             // instanciations des résultats en objets de type TheNews
@@ -94,11 +94,11 @@ class TheNewsManager extends ManagerAbstract implements ManagerInterface {
             $instanceNews->idtheSection = $oneNews['idtheSection']; // idtheSection
             $instanceNews->theSectionName = $oneNews['theSectionName']; // theSectionName
 
-            return [1 => $instanceNews];
+            return [0 => $instanceNews];
 
             // erreur
         } catch (PDOException $e) {
-            return [0 => $e->getMessage()];
+            return [2 => $e->getMessage()];
         }
     }
 
