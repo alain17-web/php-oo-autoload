@@ -26,6 +26,7 @@ if(isset($_GET['section'])&& ctype_digit($_GET['section'])){
             
     }elseif (array_key_exists(2,$recupSection)) {
         // CREATE 404 error
+        echo $twig->render("publicView/section_public.html.twig",["menu"=>$sectionsForMenu,"news"=>$recupTheNews,"detailSection"=>$recupSection]);
     }
     
     

@@ -1,6 +1,6 @@
 {% extends "template_bootstrap.html.twig" %}
 
-{% block footer %}le footer{% endblock %}
+
 
 {% block title %}{{ parent() }}Article: {% if news[0] %} {{ news[0] }} {% else %} {{ news[1].theNewsTitle }}{% endif%} {% endblock %}
 
